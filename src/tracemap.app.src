@@ -1,0 +1,12 @@
+{application, tracemap,
+ [
+  {description, ""},
+  {vsn, "1"},
+  {registered, []},
+  {applications, [
+                  kernel,
+                  stdlib
+                 ]},
+  {mod, { tracemap_app, []}},
+  {env, []}
+ ]}.
