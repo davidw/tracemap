@@ -9,24 +9,46 @@
 -module(tracemap).
 
 %% API
--export([app_pids/1, map/1]).
+-export([app_pids/1, map/1, graphviz/1, stop/0]).
 
 %%%===================================================================
 %%% API
 %%%===================================================================
 
+-spec map(AppName::atom()) -> list().
+
+%% Trace the pids for a given application.
 map(AppName) ->
     Pids = app_pids(AppName),
+    trace(Pids),
+    [name_from_pid(P) || P <- Pids].
+
+%% Show all pids under an application.
+-spec app_pids(AppName::atom()) -> list(pid()).
+
+app_pids(AppName) ->
+    Pid = application_controller:get_master(AppName),
+    {group_leader, Leader} = erlang:process_info(Pid, group_leader),
+    app_pids_internal([Pid], sets:new(), Leader).
+
+%% Creates a graphviz file from the relationships.
+-spec graphviz(Filename::string()) -> ok.
+
+graphviz(Filename) ->
+    {ok, F} = file:open(Filename, [write]),
+    file:write(F, "digraph G {\n"),
     lists:map(
-      fun(P) ->
-              Name =
-                  case erlang:process_info(P, registered_name) of
-                      {registered_name, N} -> N;
-                      _ -> undefined
-                  end,
-              io:format("Pid:	~p Name:	~p~n", [P, Name])
-      end, Pids),
-    trace(Pids).
+      fun({send, Pid, Dest, _Msg}) ->
+              file:write(F, io_lib:format("~p -> ~p~n", [Pid, Dest]));
+         ({'receive', _Pid, _Msg}) ->
+              undefined
+      end, ets:tab2list(tracedump)),
+    file:write(F, "}\n").
+
+stop() ->
+    catch ets:delete(tracedump),
+    dbg:stop().
+
 
 %%--------------------------------------------------------------------
 %% @doc
@@ -38,13 +60,6 @@ map(AppName) ->
 %%% Internal functions
 %%%===================================================================
 
-
--spec app_pids(AppName::atom()) -> list(pid()).
-
-app_pids(AppName) ->
-    Pid = application_controller:get_master(AppName),
-    {group_leader, Leader} = erlang:process_info(Pid, group_leader),
-    app_pids_internal([Pid], sets:new(), Leader).
 
 app_pids_internal([], Seen, _Leader) ->
     sets:to_list(Seen);
@@ -68,21 +83,25 @@ app_pids_internal([Pid|ToWalk], Seen, Leader) when is_pid(Pid) ->
 
 trace(Pids) when is_list(Pids) ->
     dbg:start(),
-    {ok, DumpFile} = file:open("/tmp/trace.txt", [write]),
+    catch ets:delete(tracedump),
+    ets:new(tracedump, [public, duplicate_bag, named_table]),
     dbg:tracer(process,
-               {fun tracer/2, DumpFile}),
+               {fun tracer/2, []}),
     [dbg:p(Pid, [m, r]) || Pid <- Pids].
 
-stop() ->
-    dbg:stop().
-
-tracer(Data, DumpFile) ->
+tracer(Data, []) ->
     ToWrite =
         case Data of
             {trace, Pid, send, Msg, Dest} ->
-                {Pid, send, Msg, Dest};
+                {send, name_from_pid(Pid), name_from_pid(Dest), Msg};
             {trace, Pid, 'receive', Msg} ->
-                {Pid, 'receive', Msg}
+                {'receive', name_from_pid(Pid), Msg}
         end,
-    file:write(DumpFile, io_lib:format("~p.~n", [ToWrite]))
-    DumpFile.
+    ets:insert(tracedump, ToWrite),
+    [].
+
+name_from_pid(Pid) ->
+    case erlang:process_info(Pid, registered_name) of
+        {registered_name, N} -> N;
+        _ -> Pid
+    end.
