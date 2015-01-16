@@ -19,6 +19,10 @@ In Erlang:
 
     tracemap:graphviz("trace.dot").
 
+    ... you're done tracing things ...
+
+    tracemap:stop().
+
 From the shell:
 
     neato trace.dot -Tpng > trace.png
