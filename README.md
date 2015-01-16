@@ -30,6 +30,11 @@ From the shell:
     # Or whatever other image viewer you prefer:
     eog trace.png
 
+Gallery
+-------
+
+Example images: https://github.com/davidw/tracemap/wiki/Gallery
+
 Ideas
 -----
 
