@@ -37,9 +37,10 @@ app_pids(AppName) ->
 graphviz(Filename) ->
     {ok, F} = file:open(Filename, [write]),
     file:write(F, "digraph G {\n"),
+    file:write(F, "	overlap = false;\n"),
     lists:map(
       fun({send, Pid, Dest, _Msg}) ->
-              file:write(F, io_lib:format("~p -> ~p~n", [Pid, Dest]));
+              file:write(F, io_lib:format("	~p -> ~p~n", [Pid, Dest]));
          ({'receive', _Pid, _Msg}) ->
               undefined
       end, ets:tab2list(tracedump)),
@@ -100,6 +101,8 @@ tracer(Data, []) ->
     ets:insert(tracedump, ToWrite),
     [].
 
+name_from_pid(Process) when is_atom(Process) ->
+    Process;
 name_from_pid(Pid) ->
     case erlang:process_info(Pid, registered_name) of
         {registered_name, N} -> N;
