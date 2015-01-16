@@ -23,5 +23,20 @@ From the shell:
 
     neato trace.dot -Tpng > trace.png
 
-    # Or whatever other image viewer you prefer
+    # Or whatever other image viewer you prefer:
     eog trace.png
+
+Ideas
+-----
+
+* Swimlane diagrams, to show, for instance, how a system comunicates.
+
+* Parse OTP style messages to get more information about who is
+  sending what where.
+
+* Live display via the web/javascript.
+
+* Make the code safe for a production system by limiting the amount of
+  tracing done.
+
+* Permit tracing of multiple applications.
