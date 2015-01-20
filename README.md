@@ -45,8 +45,6 @@ Example images: http://davidw.github.io/tracemap/
 Ideas
 -----
 
-* Swimlane diagrams, to show, for instance, how a system comunicates.
-
 * Parse OTP style messages to get more information about who is
   sending what where.
 
