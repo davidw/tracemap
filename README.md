@@ -56,3 +56,5 @@ Ideas
   tracing done.
 
 * Permit tracing of multiple applications.
+
+* As an application adds children, start tracing them.
