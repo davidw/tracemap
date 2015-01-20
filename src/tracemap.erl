@@ -68,8 +68,7 @@ sequence_js_print_pid(Pid) ->
 
 sequence_js_print_msg(Term) ->
     Bin = erlang:iolist_to_binary(io_lib:format("~p", [Term])),
-    Bin2 = binary:replace(Bin, <<"\n">>, <<" ">>, [global]),
-    binary:replace(Bin2, <<"#">>, <<"&#35;">>).
+    binary:replace(Bin, <<"\n">>, <<" ">>, [global]).
 
 stop() ->
     catch ets:delete(tracedump),
