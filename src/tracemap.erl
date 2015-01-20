@@ -9,7 +9,7 @@
 -module(tracemap).
 
 %% API
--export([app_pids/1, map/1, graphviz/1, stop/0]).
+-export([app_pids/1, map/1, graphviz/1, sequence_js/1, stop/0]).
 
 %%%===================================================================
 %%% API
@@ -40,11 +40,36 @@ graphviz(Filename) ->
     file:write(F, "	overlap = false;\n"),
     lists:map(
       fun({send, Pid, Dest, _Msg}) ->
-              file:write(F, io_lib:format("	~p -> ~p~n", [Pid, Dest]));
+              file:write(F, io_lib:format("	\"~p\" -> \"~p\";~n", [Pid, Dest]));
          ({'receive', _Pid, _Msg}) ->
               undefined
       end, ets:tab2list(tracedump)),
     file:write(F, "}\n").
+
+sequence_js(Filename) ->
+    {ok, F} = file:open(Filename, [write]),
+    lists:map(
+      fun({send, Pid, Dest, Msg}) ->
+              file:write(F, io_lib:format("~s->~s: ~s~n",
+                                          [sequence_js_print_pid(Pid),
+                                           sequence_js_print_pid(Dest),
+                                           sequence_js_print_msg(Msg)]));
+         ({'receive', _Pid, _Msg}) ->
+              undefined
+      end, ets:tab2list(tracedump)),
+    ok.
+
+%% sequence-diagram.js is very picky about what it prints, and it does
+%% not like < > in the pids.
+sequence_js_print_pid(Pid) when is_atom(Pid) ->
+    Pid;
+sequence_js_print_pid(Pid) ->
+    erlang:pid_to_list(Pid) -- "<>".
+
+sequence_js_print_msg(Term) ->
+    Bin = erlang:iolist_to_binary(io_lib:format("~p", [Term])),
+    Bin2 = binary:replace(Bin, <<"\n">>, <<" ">>, [global]),
+    binary:replace(Bin2, <<"#">>, <<"&#35;">>).
 
 stop() ->
     catch ets:delete(tracedump),
