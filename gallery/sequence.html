@@ -10,6 +10,17 @@
   </head>
 <body>
 
+  <p>
+    This sequence diagram traces messages sent in
+    the <a href="https://github.com/ninenines/ranch">ranch</a> Erlang
+    application.
+  </p>
+  <p>
+    The diagram was created with: <a href="http://bramp.github.io/js-sequence-diagrams/">http://bramp.github.io/js-sequence-diagrams/</a>
+    using a trace generated
+    with <a href="https://github.com/davidw/tracemap">https://github.com/davidw/tracemap</a>
+  </p>
+
   <div class="diagram">
 0.165.0->0.162.0: {ranch_conns_sup,start_protocol,<0.165.0>,&#35;Port<0.84539>}
 0.162.0->0.506.0: {shoot,boss_http_listener}
@@ -63,10 +74,6 @@
   <script>
     $(".diagram").sequenceDiagram({theme: 'simple'});
   </script>
-
-  <p>
-    Made with: <a href="http://bramp.github.io/js-sequence-diagrams/">http://bramp.github.io/js-sequence-diagrams/</a> using a trace generated with <a href="https://github.com/davidw/tracemap">https://github.com/davidw/tracemap</a>
-  </p>
 
 </body>
 </html>
