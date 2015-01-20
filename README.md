@@ -17,7 +17,10 @@ In Erlang:
 
     ... time passes, and a few http requests are made ...
 
+    %% Make a graphviz file:
     tracemap:graphviz("trace.dot").
+    %% Make a js-sequence-diagrams file
+    tracemap:sequence_js("seq.txt").
 
     ... you're done tracing things ...
 
@@ -30,10 +33,14 @@ From the shell:
     # Or whatever other image viewer you prefer:
     eog trace.png
 
+To make the sequence diagram work, you'll need to include the output
+of the file sequence_js creates in an HTML file. See the `gallery/`
+directory for examples.
+
 Gallery
 -------
 
-Example images: https://github.com/davidw/tracemap/wiki/Gallery
+Example images: http://davidw.github.io/tracemap/
 
 Ideas
 -----
