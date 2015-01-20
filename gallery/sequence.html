@@ -1,0 +1,69 @@
+<html>
+  <head>
+    <title>Sequence Exaple</title>
+
+    <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+    <script src="raphael-min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script>
+    <script src="sequence-diagram-min.js"></script>
+
+  </head>
+<body>
+
+  <div class="diagram">
+0.165.0->0.162.0: {ranch_conns_sup,start_protocol,<0.165.0>,&#35;Port<0.84539>}
+0.162.0->0.506.0: {shoot,boss_http_listener}
+0.162.0->0.165.0: <0.162.0>
+0.166.0->0.162.0: {ranch_conns_sup,start_protocol,<0.166.0>,&#35;Port<0.84540>}
+0.162.0->0.507.0: {shoot,boss_http_listener}
+0.162.0->0.166.0: <0.162.0>
+0.167.0->0.162.0: {ranch_conns_sup,start_protocol,<0.167.0>,&#35;Port<0.84541>}
+0.162.0->0.508.0: {shoot,boss_http_listener}
+0.162.0->0.167.0: <0.162.0>
+0.168.0->0.162.0: {ranch_conns_sup,start_protocol,<0.168.0>,&#35;Port<0.84542>}
+0.162.0->0.509.0: {shoot,boss_http_listener}
+0.162.0->0.168.0: <0.162.0>
+0.172.0->0.162.0: {ranch_conns_sup,start_protocol,<0.172.0>,&#35;Port<0.84543>}
+0.162.0->0.510.0: {shoot,boss_http_listener}
+0.162.0->0.172.0: <0.162.0>
+0.170.0->0.162.0: {ranch_conns_sup,start_protocol,<0.170.0>,&#35;Port<0.84544>}
+0.162.0->0.511.0: {shoot,boss_http_listener}
+0.162.0->0.170.0: <0.162.0>
+0.152.0->user: {io_request,<0.506.0>,&#35;Ref<0.0.19.96318>, {put_chars,unicode,io_lib,format, ["Unexpected date parameter: ~p~n",[null]]}}
+0.152.0->user: {io_request,<0.506.0>,&#35;Ref<0.0.19.96319>, {put_chars,unicode,io_lib,format, ["Unexpected date parameter: ~p~n",[null]]}}
+0.169.0->0.162.0: {ranch_conns_sup,start_protocol,<0.169.0>,&#35;Port<0.84553>}
+0.162.0->0.517.0: {shoot,boss_http_listener}
+0.162.0->0.169.0: <0.162.0>
+0.171.0->0.162.0: {ranch_conns_sup,start_protocol,<0.171.0>,&#35;Port<0.84556>}
+0.162.0->0.520.0: {shoot,boss_http_listener}
+0.162.0->0.171.0: <0.162.0>
+0.173.0->0.162.0: {ranch_conns_sup,start_protocol,<0.173.0>,&#35;Port<0.84563>}
+0.162.0->0.522.0: {shoot,boss_http_listener}
+0.162.0->0.173.0: <0.162.0>
+0.174.0->0.162.0: {ranch_conns_sup,start_protocol,<0.174.0>,&#35;Port<0.84564>}
+0.162.0->0.523.0: {shoot,boss_http_listener}
+0.162.0->0.174.0: <0.162.0>
+0.175.0->0.162.0: {ranch_conns_sup,start_protocol,<0.175.0>,&#35;Port<0.84565>}
+0.162.0->0.524.0: {shoot,boss_http_listener}
+0.162.0->0.175.0: <0.162.0>
+0.176.0->0.162.0: {ranch_conns_sup,start_protocol,<0.176.0>,&#35;Port<0.84566>}
+0.162.0->0.525.0: {shoot,boss_http_listener}
+0.162.0->0.176.0: <0.162.0>
+0.177.0->0.162.0: {ranch_conns_sup,start_protocol,<0.177.0>,&#35;Port<0.84567>}
+0.162.0->0.526.0: {shoot,boss_http_listener}
+0.162.0->0.177.0: <0.162.0>
+0.178.0->0.162.0: {ranch_conns_sup,start_protocol,<0.178.0>,&#35;Port<0.84568>}
+0.162.0->0.527.0: {shoot,boss_http_listener}
+0.162.0->0.178.0: <0.162.0>
+
+  </div>
+  <script>
+    $(".diagram").sequenceDiagram({theme: 'simple'});
+  </script>
+
+  <p>
+    Made with: <a href="http://bramp.github.io/js-sequence-diagrams/">http://bramp.github.io/js-sequence-diagrams/</a>
+  </p>
+
+</body>
+</html>
